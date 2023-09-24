@@ -1,14 +1,14 @@
 import os
 import pandas as pd
 
-
-def extract_data(filtered_df):
-    # Assuming the "Name" field contains data like "DDMG Session 1"
-    filtered_df['Module Code'] = filtered_df['Name'].str.extract(r'(\w+) Session (\d+)')
-    return filtered_df
-
-# Data loading, preprocessing, and user interaction
-
+def export():
+    print("Do you want to export the file?")
+    answer = input("Enter yes or no: ")
+    if answer == 'yes':
+        print("File exported")
+    elif answer == 'no':
+        main()
+    
 def main():
     folder_path = input("Enter the folder path where raw data is located: ")
     if os.path.exists(folder_path):
@@ -28,13 +28,13 @@ def main():
         
         if choice == '1':
             # Search by Module
-            pass
+            export()
         elif choice == '2':
             # Search by Lecturer
-            pass
+            export()
         elif choice == '3':
             #Search by Location
-            pass
+            export()
         elif choice == '4':
             print("Exiting program.")
             break
