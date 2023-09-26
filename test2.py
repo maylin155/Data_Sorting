@@ -9,7 +9,6 @@ class Session():
     def __init__(self,name):
         self.name = name
 
-
 def splitData(txt, splitstr):
     x = txt.split(splitstr)
     return x
@@ -22,7 +21,6 @@ if os.path.exists(folder_path):
     Module_variables = {}
     Session_variables = {}
 
-    
     # Iterate over the DataFrame
     for i in range(len(df)):
         value = df.loc[i, 'Name']
@@ -34,19 +32,9 @@ if os.path.exists(folder_path):
 
         # Create and store Session instances
         Session_variables["session{0}".format(i)] = Session(sessionList[0])
-    
-    #print(Module_variables)
-    #print(Session_variables)
-    
 
-    #df = df.drop(columns=['Name'])
     # Iterate over Module and Session dictionaries to access their attributes
-
-
-
-
     dict = df.to_dict(orient ='index')
-    #print(dict)
 
     #Key to remove from each inner dictionary
     key = 'Name'
@@ -75,6 +63,6 @@ if os.path.exists(folder_path):
         #Iterate through outer dictionary
         for index, value in dict.items():
             #Adding the new key-value pair
-            value[new_key] = new_module
+            value[new_key] = new_session
     
     print(dict)
