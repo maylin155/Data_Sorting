@@ -9,10 +9,6 @@ class Session():
     def __init__(self,name):
         self.name = name
 
-class Location():
-    def __init__(self,name):
-        self.name = name
-
 def splitData(txt, splitstr):
     x = txt.split(splitstr)
     return x
@@ -65,8 +61,15 @@ def list_files(folder_path):
 def main():
     folder_path = input("Enter the folder path where raw data is located: ")
     if os.path.exists(folder_path):
-        excel_dict = list_files(folder_path)
-        print(excel_dict)
+        excel_dict_list = list_files(folder_path)
+        print(excel_dict_list)
+
+        #excel_dict_list contains dictionaries from excel files in the folder.
+        #for excel_file, data in excel_dict_list:
+            #print(f"Data from Excel file: {excel_file}")
+            #for i, record in enumerate(data, start=1):
+                #print(f"Record {i}: {record}")
+            #print()
 
     else:
         print(f"The folder path '{folder_path}' does not exist.")
