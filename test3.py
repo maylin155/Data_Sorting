@@ -1,16 +1,23 @@
-import re
+import pandas as pd
 
-input_string = "DICT-DNDFC_221_FT_DCNG_Lab01GrpA/1"
+def remove_column(df):
+    return df.drop(['Name'], axis=1)
 
-def extract_info(input_string):
-    match = re.match(r'([^_]+)_(.+?)/', input_string)
-    if match:
-        module_code = match.group(1)
-        session_name = match.group(2)
-        return module_code, session_name
-    
-    else:
-        return None, None
+def splitData(txt, splitstr):
+    x = txt.split(splitstr)
+    return x
 
-extract_info(input_string)
+def create_module_row(df):
+    pass
 
+def create_session_row(df):
+    pass
+
+def main():
+    file_path = input("Enter file path: ")
+    df = pd.read_csv(file_path)
+    df = remove_column(df)
+    print(df)
+
+if __name__ == "__main__":
+    main()
