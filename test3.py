@@ -90,7 +90,8 @@ def merge_sort_by_module(data):
     result.extend(R[j:])
     return result
 
-def merge_sort_by_date(data):
+def merge_sort_by_date(data, ascending=False):
+    #Split date from dictionary to year,month and day
     def split_date(date_str):
         try:
             date= date_str.split('/')
@@ -98,7 +99,7 @@ def merge_sort_by_date(data):
                 day,month,year = map(int, date)
                 return datetime(year, month, day)
             else:
-                return datetime(1900, 1, 1)
+                return datetime(1900, 1, 1) #A default date for invalid format.
         except ValueError:
             return datetime(1900,1,1)
     def merge(L,R):
@@ -108,12 +109,22 @@ def merge_sort_by_date(data):
             left_date = split_date(L[i]['Activity Dates (Individual)'])
             right_date = split_date(R[j]['Activity Dates (Individual)'])
 
-            if left_date < right_date:
-                result.append(L[i])
-                i += 1
+            #Ascending or Descending order
+            if ascending:
+                if left_date <= right_date:
+                    result.append(L[i])
+                    i += 1
+                else:
+                    result.append(R[j])
+                    j += 1
             else:
-                result.append(R[j])
-                j += 1
+                if left_date >= right_date:
+                    result.append(L[i])
+                    i += 1
+                else:
+                    result.append(R[j])
+                    j += 1
+                    
         result.extend(L[i:])
         result.extend(R[j:])
         return result
@@ -121,10 +132,14 @@ def merge_sort_by_date(data):
     if len(data) <= 1:
         return data
     
+    #Find the mid of the list
     mid = len(data)//2
+
+    #Divide the list into half
     left_half = data[:mid]
     right_half = data[mid:]
 
+    #Recursively sort each half
     left_half = merge_sort_by_date(left_half)
     right_half = merge_sort_by_date(right_half)
 
@@ -135,9 +150,20 @@ def main():
     if os.path.exists(folder_path) and os.path.isdir(folder_path):
          excel_dict_list = load_folder(folder_path)
          #print(excel_dict_list)
-         sorted = merge_sort_by_date(excel_dict_list)
-         for item in sorted:
-             print(item)
+
+
+    user_input = input("Sort by date in (A)scending or (D)escending order? ").strip().lower()
+    if user_input == 'a':
+        sorted_data = merge_sort_by_date(excel_dict_list, ascending=True)
+    elif user_input == 'd':
+        sorted_data = merge_sort_by_date(excel_dict_list, ascending=False)
+    else:
+        print("Invalid input. Defaulting to ascending order.")
+        sorted_data = merge_sort_by_date(excel_dict_list, ascending=True)
+
+    # Print the sorted data
+    for item in sorted_data:
+        print(item)
 
          
     
