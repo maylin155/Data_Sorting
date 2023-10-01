@@ -59,20 +59,36 @@ def list_files(folder_path):
 
 
 def main():
-    folder_path = input("Enter the folder path where raw data is located: ")
-    if os.path.exists(folder_path):
-        excel_dict_list = list_files(folder_path)
-        print(excel_dict_list)
+    while True:
+        print("Options:")
+        print("1. Load data")
+        print("2. View Schedule")
+        print("3. Generate Timetable")
+        print("4. Exit")
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            folder_path = input("Enter the folder path where raw data is located: ")
+            data = load_data(folder_path)
 
-        #excel_dict_list contains dictionaries from excel files in the folder.
-        #for excel_file, data in excel_dict_list:
-            #print(f"Data from Excel file: {excel_file}")
-            #for i, record in enumerate(data, start=1):
-                #print(f"Record {i}: {record}")
-            #print()
-
-    else:
-        print(f"The folder path '{folder_path}' does not exist.")
+            #data = preprocess_data(data)
+            print("Data loaded and preprocessed.")
+        elif choice == '2':
+            if 'data' in locals():
+                view_schedule(data)
+            else:
+                print("Please load data first.")
+        elif choice == '3':
+            if 'data' in locals():
+                # Generate timetable
+                pass
+            else:
+                print("Please load data first.")
+        elif choice == '4':
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
