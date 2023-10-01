@@ -58,7 +58,7 @@ def main():
     folder_path = input("Enter folder path: ")
     if os.path.exists(folder_path) and os.path.isdir(folder_path):
          excel_dict_list = load_folder(folder_path)
-         print(excel_dict_list[15])
+         print(excel_dict_list)
     
 
 if __name__ == "__main__":
