@@ -2,7 +2,6 @@ import pandas as pd
 import os
 from datetime import datetime
 
-
 def remove_column(df):
     return df.drop(['Name'], axis=1)
 
@@ -149,7 +148,10 @@ def main():
     folder_path = input("Enter folder path: ")
     if os.path.exists(folder_path) and os.path.isdir(folder_path):
          excel_dict_list = load_folder(folder_path)
-         #print(excel_dict_list)
+    #     #  print(excel_dict_list)
+    #      sorted_data = merge_sort_by_module(excel_dict_list)
+    #      df = pd.DataFrame.from_records(sorted_data)
+    #      print(df)
 
 
     user_input = input("Sort by date in (A)scending or (D)escending order? ").strip().lower()
@@ -162,11 +164,8 @@ def main():
         sorted_data = merge_sort_by_date(excel_dict_list, ascending=True)
 
     # Print the sorted data
-    for item in sorted_data:
-        print(item)
-
-         
-    
+    df = pd.DataFrame.from_records(sorted_data)
+    print(df)
 
 if __name__ == "__main__":
     main()
