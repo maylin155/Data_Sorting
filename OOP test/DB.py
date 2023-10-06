@@ -8,6 +8,7 @@ class DB(Dataset):
         super().__init__()
         self.database = []
 
+    #Store the data as a list after loading the file
     def store_data(self,data):
         self.database = data
 
@@ -20,7 +21,8 @@ class DB(Dataset):
         df = pd.DataFrame.from_records(self.database)
         print(df)
 
-    def merge_sort_by_module(self,data, ascending=False):
+    #Using merge sort algorithm to sort the data by module
+    def merge_sort_by_module(self,data, ascending=True):
         if len(data) <= 1:
             return data
 
@@ -63,7 +65,8 @@ class DB(Dataset):
         result.extend(R[j:])
         return result
 
-    def merge_sort_by_date(self,data, ascending=False):
+    #Using merge sort algorithm to sort the data by date
+    def merge_sort_by_date(self,data, ascending=True):
         #Split date from dictionary to year,month and day
         def split_date(date_str):
             try:

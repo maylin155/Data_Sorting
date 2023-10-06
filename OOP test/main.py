@@ -16,11 +16,8 @@ def start():
         except KeyError:
             print("The data is not found in the list. Please try again.")
 
-
 def main():
     start()
-
-
 
 if __name__ == "__main__":
     main()
