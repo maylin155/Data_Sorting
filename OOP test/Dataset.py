@@ -40,8 +40,8 @@ class Dataset:
                 df['Session'] = df['Name'].apply(self.extract_session_data)
 
                 
-                #Remove columns "Name" and "Unnamed"
-                df = df.drop(columns=['Name'])
+                #Remove columns "Unnamed"
+                #df = df.drop(columns=['Name'])
                 df = df.drop(df.columns[df.columns.str.contains('Unnamed', case=False)], axis=1)
 
                 # Convert the DataFrame to a list of dictionaries

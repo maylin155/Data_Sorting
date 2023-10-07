@@ -87,7 +87,7 @@ class Menu(DB):
             return sorted_data
         #Sort by Date
         elif user_input == "D":
-            sort_by = input("(A)scending or (D)escending?").upper()
+            sort_by = input("(A)scending or (D)escending? ").upper()
             if sort_by == "A":
                 sorted_data = self.merge_sort_by_date(self.database, ascending = True)
                 df = pd.DataFrame.from_records(sorted_data)
@@ -106,7 +106,7 @@ class Menu(DB):
 
     #Export the data frame to excel file.
     def get_export_menu(self):
-        choice = input("Do you want to export the file : (Y) or (N)?").upper()
+        choice = input("Do you want to export the file : (Y) or (N)? ").upper()
         if choice == "Y":
             filename = input("Enter the filename to export: ")
             df = pd.DataFrame.from_records(self.exportDB)
