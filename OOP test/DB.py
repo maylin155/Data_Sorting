@@ -127,3 +127,31 @@ class DB(Dataset):
         result = [item for item in data if key_to_search in item and item[key_to_search] == value_to_find]
         return result
     
+    #Searching by start time and end time
+    def search_by_start_end_time(self, data, start_time, end_time):
+        found_dicts = []
+        for item in data:
+            if "Scheduled Start Time" in item and "Scheduled End Time" in item:
+                item_start_time = item["Scheduled Start Time"]
+                item_end_time = item["Scheduled End Time"]
+                if start_time <= item_start_time <= end_time or start_time <= item_end_time <= end_time:
+                    found_dicts.append(item)
+        return found_dicts
+    
+    #Search by Specific Time
+    def search_by_specific_time(self, data, specific_time):
+        key_to_search_start = "Scheduled Start Time"
+        key_to_search_end = "Scheduled End Time"
+
+        # Use the search_by_value function to find dictionaries with the specified time in both keys
+        start_time_results = self.search_by_value(data, key_to_search_start, specific_time)
+        end_time_results = self.search_by_value(data, key_to_search_end, specific_time)
+
+        # Find dictionaries that match either start or end time
+        found_dicts = start_time_results + end_time_results
+
+        return found_dicts
+
+
+
+    
