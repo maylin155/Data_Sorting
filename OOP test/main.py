@@ -1,4 +1,4 @@
-from DB import *
+from Database import *
 from Dataset import *
 from Menu import *
 
@@ -6,6 +6,7 @@ def start():
     menu = Menu()
     data = menu.load_folder()
     menu.store_data(data)
+    menu.wrap_text()
     menu.display_database()
     while True:
         try:

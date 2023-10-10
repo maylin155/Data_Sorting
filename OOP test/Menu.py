@@ -1,8 +1,9 @@
 import os
-from DB import *
+from Database import *
+from tabulate import tabulate
 import re
 
-class Menu(DB):
+class Menu(Database):
     def __init__(self):
         super().__init__()
         self.exportDB = []
@@ -214,7 +215,7 @@ class Menu(DB):
             print("2. Exit the program.")
             user_input = input("Choose option: ")
             if user_input == '1':
-                DB.importFile()
+                Database.importFile()
             if user_input == '2':
                 self.exit()
             else:

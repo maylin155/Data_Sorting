@@ -1,8 +1,9 @@
 from datetime import datetime
 import pandas as pd
 from Dataset import *
-
-class DB(Dataset):
+from tabulate import tabulate
+import textwrap
+class Database(Dataset):
 
     def __init__(self):
         super().__init__()
@@ -16,10 +17,21 @@ class DB(Dataset):
         return self.database
     
     def display_database(self):
-        # for item in self.database:
-        #     print(item)
-        df = pd.DataFrame.from_records(self.database)
-        print(df)
+        # df = pd.DataFrame.from_records(self.database)
+        # data_list = df.to_dict(orient="records")
+        # headers = df.columns.tolist()
+        print(tabulate(self.database, headers="keys", showindex="always" ,tablefmt="psql"))
+
+    def wrap_text(self, width=20):
+        wrapped_data_list = []
+        for data_dict in self.database:
+            wrapped_data_dict = {}
+            for key, value in data_dict.items():
+                wrapped_value = "\n".join(textwrap.wrap(value, width=width))
+                wrapped_data_dict[key] = wrapped_value
+            wrapped_data_list.append(wrapped_data_dict)
+        self.database = wrapped_data_list  # Replace the database with wrapped data
+
 
     #Using merge sort algorithm to sort the data by module
     def merge_sort_by_module(self,data, ascending=True):
