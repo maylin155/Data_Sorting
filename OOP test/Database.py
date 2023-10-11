@@ -2,7 +2,6 @@ from datetime import datetime
 import pandas as pd
 from Dataset import *
 from tabulate import tabulate
-import textwrap
 class Database(Dataset):
 
     def __init__(self):
@@ -15,22 +14,36 @@ class Database(Dataset):
 
     def get_database(self):
         return self.database
-    
-    def display_database(self):
-        # df = pd.DataFrame.from_records(self.database)
-        # data_list = df.to_dict(orient="records")
-        # headers = df.columns.tolist()
-        print(tabulate(self.database, headers="keys", showindex="always" ,tablefmt="psql"))
 
-    def wrap_text(self, width=20):
-        wrapped_data_list = []
-        for data_dict in self.database:
-            wrapped_data_dict = {}
-            for key, value in data_dict.items():
-                wrapped_value = "\n".join(textwrap.wrap(value, width=width))
-                wrapped_data_dict[key] = wrapped_value
-            wrapped_data_list.append(wrapped_data_dict)
-        self.database = wrapped_data_list  # Replace the database with wrapped data
+    def truncate_content(self, data, max_length):
+        return [item[:max_length-10] + "..." if len(item) > max_length else item for item in data]
+    
+    def display_database(self, data_to_display=None):
+        if data_to_display is None:
+            data_to_display = self.database
+        # Truncate data for each column
+        truncated_database = []
+        for row in self.database:
+            truncated_row = {}
+            for key, value in row.items():
+                if isinstance(value, str):  # Only truncate strings
+                    truncated_row[key] = self.truncate_content([value], 20)[0]  # Assuming a max_length of 20
+                else:
+                    truncated_row[key] = value
+            truncated_database.append(truncated_row)
+
+        print(tabulate(truncated_database, headers="keys", showindex="always", tablefmt="psql"))
+    
+    def display_sorted_data(self, sorted_data, num_rows=None):
+        # Convert your sorted data to a DataFrame
+        df = pd.DataFrame(sorted_data)
+        
+        # Truncate or limit string lengths for cleaner display
+        max_str_length = 20
+        df = df.applymap(lambda x: (str(x)[:max_str_length-10] + '...') if isinstance(x, str) and len(str(x)) > max_str_length else x)
+        
+        # Display the data using tabulate with grid format
+        print(tabulate(df, headers="keys", tablefmt="psql", showindex="always"))
 
 
     #Using merge sort algorithm to sort the data by module

@@ -1,12 +1,14 @@
 import os
+from datetime import datetime
 from Database import *
 from tabulate import tabulate
 import re
 
-class Menu(Database):
-    def __init__(self):
-        super().__init__()
-        self.exportDB = []
+class Menu():
+    def __init__(self, database):
+        self.database = database
+        self.exportDB =[]
+
 
     def exit(self):
         os.system('cls')
@@ -31,12 +33,12 @@ class Menu(Database):
             #Search by Module
             key_to_search = 'Module'
             value_to_find = input(f"Enter the Module you want to search for '{key_to_search}': ").upper()
-            found_dicts = self.search_by_value(self.database, key_to_search, value_to_find)
+            found_dicts = self.database.search_by_value(self.database.database,key_to_search, value_to_find)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -45,12 +47,12 @@ class Menu(Database):
             key_to_search = 'Allocated Staff Name'
             value_to_find = input(f"Enter the Lecturer you want to search for '{key_to_search}': ")
             value_to_find = re.sub("(^|\s)(\S)", self.convert_into_uppercase, value_to_find)
-            found_dicts = self.search_by_value(self.database, key_to_search, value_to_find)
+            found_dicts = self.database.search_by_value(self.database.database, key_to_search, value_to_find)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -60,12 +62,12 @@ class Menu(Database):
             key_to_search = 'Allocated Location Name'
             value_to_find = input(f"Enter the Zone Name you want to search for '{key_to_search}': ")
             value_to_find = re.sub("(^|\s)(\S)", self.convert_into_uppercase, value_to_find)
-            found_dicts = self.search_by_value(self.database, key_to_search, value_to_find)
+            found_dicts = self.database.search_by_value(self.database.database,key_to_search, value_to_find)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -74,12 +76,12 @@ class Menu(Database):
             #Search by Date
             key_to_search = 'Activity Dates (Individual)'
             value_to_find = input(f"Enter the Date(DD/M/YYYY) you want to search for '{key_to_search}': ")
-            found_dicts = self.search_by_value(self.database, key_to_search, value_to_find)
+            found_dicts = self.database.search_by_value(self.database.database, key_to_search, value_to_find)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -95,7 +97,7 @@ class Menu(Database):
 
             found_dicts = []
             # Iterate through the database and find dictionaries within the date range
-            for item in self.database:
+            for item in self.database.database:
                 if "Activity Dates (Individual)" in item:
                     activity_dates = item["Activity Dates (Individual)"].split(", ")
                     for date_str in activity_dates:
@@ -104,9 +106,9 @@ class Menu(Database):
                             found_dicts.append(item)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No schedules found between {start_date} and {end_date}")
                 self.get_search_menu()  # Continue the search menu loop
@@ -115,12 +117,12 @@ class Menu(Database):
         elif choice == '6':
             #Search by Specific Time
             time = input("Enter a specific time in (HH:MM:SS): ")
-            found_dicts = self.search_by_specific_time(self.database, time)
+            found_dicts = self.database.search_by_specific_time(self.database.database,time)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -134,12 +136,12 @@ class Menu(Database):
             start_time = pd.to_datetime(start_time).strftime('%H:%M:%S')
             end_time = pd.to_datetime(end_time).strftime('%H:%M:%S')
 
-            found_dicts = self.search_by_start_end_time(self.database, start_time, end_time)
+            found_dicts = self.database.search_by_start_end_time(self.database.database,start_time, end_time)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No schedules found between {start_time} and {end_time}")
                 self.get_search_menu()  # Continue the search menu loop
@@ -148,12 +150,12 @@ class Menu(Database):
             # Search by Day
             key_to_search = 'Scheduled Days'
             value_to_find = input(f"Enter the Day you want to search for '{key_to_search}': ").capitalize()
-            found_dicts = self.search_by_value(self.database, key_to_search, value_to_find)
+            found_dicts = self.database.search_by_value(self.database.database,key_to_search, value_to_find)
 
             if found_dicts:
-                df = pd.DataFrame(found_dicts)
                 self.exportDB = found_dicts
-                print(df)
+                print(tabulate(found_dicts, headers="keys", tablefmt="grid"))
+                #self.database.display_database(found_dicts)
             else:
                 print(f"No Schedule found with {key_to_search} = {value_to_find}")
                 self.get_search_menu()
@@ -168,39 +170,38 @@ class Menu(Database):
     def get_sort_menu(self):
         print("Sort the timetable by")
         user_input = input("(M)odule or (D)ate? ").upper()
+        sorted_data = None
         #Sort by Module
         if user_input == "M":
             sort_by = input("(A)scending or (D)escending? ").upper()
             if sort_by == "A":
-                sorted_data = self.merge_sort_by_module(self.database, ascending = True)
-                df = pd.DataFrame.from_records(sorted_data)
-                print(df)
+                sorted_data = self.database.merge_sort_by_module(data=self.database.database,ascending = True)
             elif sort_by == "D":
-                sorted_data = self.merge_sort_by_module(self.database, ascending = False)
-                df = pd.DataFrame.from_records(sorted_data)
-                print(df)
+                sorted_data = self.database.merge_sort_by_module(data = self.database.database,ascending = False)
             else:
                 print("Invalid option. Please try again.")
                 return
-            return sorted_data
         #Sort by Date
         elif user_input == "D":
             sort_by = input("(A)scending or (D)escending? ").upper()
             if sort_by == "A":
-                sorted_data = self.merge_sort_by_date(self.database, ascending = True)
-                df = pd.DataFrame.from_records(sorted_data)
-                print(df)
+                sorted_data = self.database.merge_sort_by_date(data = self.database.database,ascending = True)
             elif sort_by == "D":
-                sorted_data = self.merge_sort_by_date(self.database, ascending = False)
-                df = pd.DataFrame.from_records(sorted_data)
-                print(df)
+                sorted_data = self.database.merge_sort_by_date(data = self.database.database,ascending = False)
             else:
                 print("Invalid option. Please try again.")
                 return
-            return sorted_data
         else:
             print("Invalid choice.Please try again")
             self.get_sort_menu()
+            return
+        
+        if sorted_data:
+            self.database.database = sorted_data
+            self.database.display_sorted_data(sorted_data)
+        else:
+            print("Invalid data.")
+
 
     #Export the data frame to excel file.
     def get_export_menu(self):
@@ -215,7 +216,7 @@ class Menu(Database):
             print("2. Exit the program.")
             user_input = input("Choose option: ")
             if user_input == '1':
-                Database.importFile()
+                self.database.importFile()
             if user_input == '2':
                 self.exit()
             else:
@@ -224,8 +225,3 @@ class Menu(Database):
         else:
             print("Invalid choice.Please try again.")
             self.get_export_menu()
-
-    
-    def export_to_csv(data, filename):
-        df = pd.DataFrame(data)
-        df.to_csv(filename, index=False)
