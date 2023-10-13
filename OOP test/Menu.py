@@ -3,6 +3,7 @@ from datetime import datetime
 from Database import *
 from tabulate import tabulate
 import re
+import time
 
 class Menu():
     def __init__(self, database):
@@ -212,16 +213,13 @@ class Menu():
             df.to_csv(rf"D:\Yona\BCS\Algorithms and Data Structures\casestudy\OOP test\exported_files\{filename}.csv")
             print("Exported")
         elif choice == "N":
-            print("1. Go back to main menu")
-            print("2. Exit the program.")
-            user_input = input("Choose option: ")
-            if user_input == '1':
-                self.database.importFile()
-            if user_input == '2':
+                exit_message = "Exiting the program ..."
+                for char in exit_message:
+                    print(char, end='', flush=True)  # Print one character at a time without a newline
+                    time.sleep(0.1)  # Delay of 0.1 seconds between each character
+                print()  # Newline after the message
                 self.exit()
-            else:
+        else:
                 print("Invalid choice")
                 self.get_export_menu()
-        else:
-            print("Invalid choice.Please try again.")
-            self.get_export_menu()
+
