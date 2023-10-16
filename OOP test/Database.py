@@ -15,6 +15,7 @@ class Database(Dataset):
     def get_database(self):
         return self.database
 
+    #Shorten the string
     def truncate_content(self, data, max_length):
         return [item[:max_length-10] + "..." if len(item) > max_length else item for item in data]
     
@@ -42,7 +43,7 @@ class Database(Dataset):
         max_str_length = 20
         df = df.applymap(lambda x: (str(x)[:max_str_length-10] + '...') if isinstance(x, str) and len(str(x)) > max_str_length else x)
         
-        # Display the data using tabulate with grid format
+        # Display the data using tabulate with psql format
         print(tabulate(df, headers="keys", tablefmt="psql", showindex="always"))
 
 
